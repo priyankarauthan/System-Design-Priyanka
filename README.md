@@ -38,7 +38,7 @@
     Redis Cache + Kafka (Regional)         Redis Cache + Kafka (Regional)
              ↓                                         ↓
      Delivery Agent App + Maps API        Delivery Agent App + Maps API
-
+```
 
 
 
@@ -85,4 +85,96 @@
 - Encrypted data in transit and at rest (TLS + DB encryption).
 - OAuth2/JWT for authentication.
 - Rate limiting and abuse protection at API gateway.
+
+
+## 🔹 What is Sharding?
+
+Sharding is a database partitioning technique that splits a large dataset into smaller, more manageable pieces called shards.
+Each shard holds a subset of the data and is often stored on a separate server or node.
+
+Think of it as slicing a large pizza into slices so that many people can eat at once—similarly, sharding allows a database to scale by dividing its load.
+
+
+## 📦 Why Sharding Is Needed
+
+### Without sharding:
+
+One database server handles everything (single point of failure, bottleneck)
+
+Not scalable beyond a certain point
+
+Performance degrades as data grows
+
+### With sharding:
+
+Load is distributed across multiple servers
+
+Each shard can be optimized individually
+
+Horizontal scaling becomes possible
+
+### 🎯 How Sharding Works
+
+You choose a sharding key (usually a unique ID or a user’s location), and then:
+
+Shard 1 → Handles data for user_id % 3 == 0
+
+Shard 2 → Handles data for user_id % 3 == 1
+
+Shard 3 → Handles data for user_id % 3 == 2
+
+### OR for a food delivery system:
+
+Shard 1 (Mumbai) → Handles orders from Mumbai
+
+Shard 2 (Delhi) → Handles orders from Delhi
+
+Shard 3 (Bangalore) → Handles orders from Bangalore
+
+### 🗺️ Types of Sharding
+
+### Horizontal Sharding (most common)
+
+→ Rows are divided based on a key (e.g., location, ID)
+
+### Vertical Sharding
+
+→ Tables are split based on features (e.g., one DB for orders, one for payments)
+
+### Geo-Sharding
+
+→ Based on geographical regions (used by Swiggy, Zomato, etc.)
+
+### ✅ Benefits
+
+Handles huge volumes of data
+
+Reduces load on individual servers
+
+Improves performance and availability
+
+Enables regional scaling
+
+### ⚠️ Challenges
+
+More complex to implement and maintain
+
+Cross-shard joins are difficult
+
+Requires shard-aware application logic
+
+Data movement between shards during scaling can be tricky
+
+### 📌 Real-World Example (Swiggy)
+
+Imagine Swiggy serves all of India:
+
+All users and orders from Mumbai go to Shard 1 (Mumbai DB)
+
+All from Delhi go to Shard 2 (Delhi DB)
+
+All from Bangalore go to Shard 3
+
+If one region gets heavy traffic (like Mumbai during monsoon), the other shards remain unaffected.
+
 
